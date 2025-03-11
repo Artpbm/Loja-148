@@ -39,8 +39,28 @@ document.addEventListener("DOMContentLoaded", function(){
           const bntAdicionarAoCarrinho = document.createElement("a")
           bntAdicionarAoCarrinho.href = '#'
           bntAdicionarAoCarrinho.className = "btn btn-primary btn-adicionar-ao-carrinho"
-          bntAdicionarAoCarrinho.setAttribute("data-indice")
+          bntAdicionarAoCarrinho.setAttribute("data-indice", index)
+          bntAdicionarAoCarrinho.textContent = "Adicionar ao carrinho"
+
+          cardBody.appendChild(cardTitle)
+          cardBody.appendChild(cardText)
+          cardBody.appendChild(bntAdicionarAoCarrinho)
+
+          card.appendChild(imagem)
+          card.appendChild(cardBody)
+
+          produtosContainer.appendChild(card)
         }) 
      })
         .catch((error) => console.error("Erro ao carregar o arquivo JSON", error));
+
+        //Manipulador de eventos para o botao "Adicionar ao carrinho"
+        $("#produtos-container").on("click", ".btn-adicionar-ao-carrinho", function(){
+            const indexDoProduto = $(this).data("indice")
+            const produtoSelecionado = produtos[indexDoProduto]
+            let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+            carrinho.push(produtoSelecionado)
+            localStorage.setItem("carrinho", JSON.stringify(carrinho))
+            alert("Produto adicionado ao carrinho")
+        })
     })
